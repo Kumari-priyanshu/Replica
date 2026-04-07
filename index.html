@@ -3,283 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TripBee - Experience Travel Like Never Before</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>TripHub - Diverse Tour Options</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- CORE STYLES --- */
+        :root {
+            --primary-purple: #5D3B8E;
+            --dark-navy: #1e1b4b;
+            --text-muted: #666;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body { background-color: var(--white); overflow-x: hidden; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- NAVIGATION --- */
+        .header {
+            background-color: var(--dark-navy);
+            padding: 20px 0;
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .plane-icon { color: #8b5cf6; }
+
+        .nav-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-menu a:hover { color: var(--white); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 400px;
+            background: linear-gradient(rgba(30, 27, 75, 0.6), rgba(30, 27, 75, 0.4)), 
+                        url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .hero-title { font-size: 48px; font-weight: 800; }
+
+        /* --- DIVERSE TOUR OPTIONS (THE PILL CARDS) --- */
+        .tour-options { padding: 80px 0; }
+
+        .section-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+        }
+
+        .section-title { color: var(--primary-purple); font-size: 32px; font-weight: 800; margin-bottom: 10px; }
+        .section-subtitle { color: var(--text-muted); max-width: 600px; font-size: 14px; }
+
+        .slider-controls { display: flex; gap: 12px; }
+        .ctrl-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ctrl-btn.active { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
+
+        /* The Grid Layout */
+        .tours-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .tour-card { flex: 1; transition: 0.3s; }
+        .tour-card:hover { transform: translateY(-10px); }
+
+        /* PILL SHAPE LOGIC */
+        .tour-img-wrapper {
+            height: 480px;
+            border-radius: 50px; /* The pill effect */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .tour-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 40px 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            text-align: center;
+        }
+
+        .tour-overlay h3 { font-size: 24px; font-weight: 700; margin-bottom: 5px; }
+        .location { font-size: 13px; margin-bottom: 15px; display: block; }
+        
+        .travel-btn {
+            background: white;
+            color: var(--primary-purple);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .stats-text { font-size: 10px; opacity: 0.8; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 992px) {
+            .tours-grid { flex-wrap: wrap; }
+            .tour-card { flex: 0 0 calc(50% - 10px); margin-bottom: 20px; }
+        }
+        @media (max-width: 600px) {
+            .tour-card { flex: 0 0 100%; }
+            .section-header-flex { flex-direction: column; align-items: flex-start; gap: 20px; }
+        }
+    </style>
 </head>
 <body>
 
-<nav class="navbar">
-        <div class="logo">TripBee</div>
-        <ul class="nav-links">
-            <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="destinations.html">Destinations</a></li>
-            <li><a href="blog.html">Blog</a></li>
-        </ul>
-        <button class="btn-contact-outline">Contact Us</button>
-    </nav>
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <span class="plane-icon"><i class="fas fa-plane"></i></span>
+                <span>TripHub</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#">About</a>
+                <a href="#">Features</a>
+                <a href="#">Team</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </header>
 
+    <section class="hero">
+        <h1 class="hero-title">About Us</h1>
+    </section>
 
-
-<header class="home-hero">
-    <div class="hero-overlay"></div> <div class="hero-content">
-        <h1>Experience Travel Like <br> Never Before</h1>
-        <p>Discover Hidden Gems And Iconic Landmarks Worldwide With TripBee. <br> 
-           Our Dedicated Team Ensures Your Trip Is Seamless, Enjoyable, And Truly Unforgettable.</p>
-        
-        <button class="btn-white-pill">Take a Trip <span>&rarr;</span></button>
-    </div>
-
-    <div class="social-icons-hero">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-    </div>
-</header>
-    <section class="gateway-section">
-    <div class="gateway-container">
-        <div class="gateway-text">
-            <h2 class="section-title-purple">TripBee: <span class="purple-text">Your Gateway To Adventure</span></h2>
-            <p class="gateway-description">
-                We Craft Unforgettable Travel Experiences Tailored Just For You. From Curated Tour Packages 
-                And Seamless Bookings To Personalized Itineraries And On-Trip Support, We Take Care Of 
-                Everything—So You Can Focus On Making Memories.
-            </p>
+    <section class="tour-options">
+        <div class="container">
             
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>10,000+</h3>
-                    <p>Satisfied Travelers</p>
+            <div class="section-header-flex">
+                <div class="header-content">
+                    <h2 class="section-title">Diverse Tour Options</h2>
+                    <p class="section-subtitle">Choose From A Wide Range Of Tours—Whether It's Adventure, Relaxation, Cultural Exploration, Or Family Fun, We've Got Something For Every Traveler.</p>
                 </div>
-                <div class="stat-item">
-                    <h3>500+</h3>
-                    <p>Destinations Covered</p>
-                </div>
-                <div class="stat-item">
-                    <h3>150+</h3>
-                    <p>Expert Guides</p>
+                <div class="slider-controls">
+                    <button class="ctrl-btn"><i class="fas fa-arrow-left"></i></button>
+                    <button class="ctrl-btn active"><i class="fas fa-arrow-right"></i></button>
                 </div>
             </div>
-        </div>
 
-        <div class="gateway-gallery">
-            <div class="gallery-main" style="background-image: url('./images/bali-main.jpg');"></div>
-            <div class="gallery-sub" style="background-image: url('./images/sunset.jpg');"></div>
-            <div class="gallery-sub" style="background-image: url('./images/street.jpg');"></div>
-        </div>
-    </div>
-</section>
+            <div class="tours-grid">
+                <div class="tour-card">
+                    <div class="tour-img-wrapper" style="background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=500&q=80');">
+                        <div class="tour-overlay">
+                            <h3>Bali</h3>
+                            <span class="location"><i class="fas fa-map-marker-alt"></i> Indonesia</span>
+                            <span class="stats-text">546 Want To Travel Here</span>
+                        </div>
+                    </div>
+                </div>
 
-    <section class="why-choose-section">
-        <div class="why-container">
-            <div class="why-image">
-                <img src="./images/why-us.jpg" alt="Why Choose Us">
-            </div>
-            <div class="why-content">
-                <h2>Why <span>Choose Us</span></h2>
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <div class="icon-box"><i class="fas fa-shield-alt"></i></div>
-                        <h4>Safety First</h4>
-                        <p>We prioritize your safety with verified guides and 24/7 support across all journeys.</p>
+                <div class="tour-card">
+                    <div class="tour-img-wrapper" style="background-image: url('https://images.unsplash.com/photo-1570077188670-e3a8d69ac628?w=500&q=80');">
+                        <div class="tour-overlay">
+                            <h3>Santorini</h3>
+                            <span class="location"><i class="fas fa-map-marker-alt"></i> Greece</span>
+                            <span class="stats-text">645 Want To Travel Here</span>
+                        </div>
                     </div>
-                    <div class="feature-item">
-                        <div class="icon-box"><i class="fas fa-tags"></i></div>
-                        <h4>Best Prices</h4>
-                        <p>Affordable luxury and budget-friendly packages designed for every kind of traveler.</p>
+                </div>
+
+                <div class="tour-card">
+                    <div class="tour-img-wrapper" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500&q=80');">
+                        <div class="tour-overlay">
+                            <h3>Bern</h3>
+                            <span class="location"><i class="fas fa-map-marker-alt"></i> Swiss</span>
+                            <button class="travel-btn">I Want To Travel Here</button>
+                        </div>
                     </div>
-                    <div class="feature-item">
-                        <div class="icon-box"><i class="fas fa-map-marked-alt"></i></div>
-                        <h4>Expert Guides</h4>
-                        <p>Our local experts know the hidden spots and stories that others usually miss.</p>
-                    </div>
-                    <div class="feature-item">
-                        <div class="icon-box"><i class="fas fa-history"></i></div>
-                        <h4>Easy Booking</h4>
-                        <p>Seamless digital booking process with flexible payment and cancellation options.</p>
+                </div>
+
+                <div class="tour-card">
+                    <div class="tour-img-wrapper" style="background-image: url('https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=500&q=80');">
+                        <div class="tour-overlay">
+                            <h3>Uldag</h3>
+                            <span class="location"><i class="fas fa-map-marker-alt"></i> Turkey</span>
+                            <span class="stats-text">112 Want To Travel Here</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
-
-    <section class="popular-tours">
-        <div class="tours-header">
-            <h2 class="purple-heading">Popular Tours</h2>
-            <p>Explore Our Top Destinations Loved By Travelers Worldwide And Find Your Perfect Adventure Today.</p>
-        </div>
-        
-        <div class="tours-grid">
-            <div class="tour-card">
-                <div class="tour-img" style="background-image: url('./images/download.jpg');"></div>
-                <div class="tour-info">
-                    <div class="tour-main"><h3>Paris, France</h3><p>7 Days, 6 Nights</p></div>
-                    <div class="tour-price"><span>Starts From</span><strong>$1,200</strong></div>
-                </div>
-            </div>
-            <div class="tour-card">
-                <div class="tour-img" style="background-image: url('./images/download.jpg');"></div>
-                <div class="tour-info">
-                    <div class="tour-main"><h3>Kyoto, Japan</h3><p>7 Days, 6 Nights</p></div>
-                    <div class="tour-price"><span>Starts From</span><strong>$1,200</strong></div>
-                </div>
-            </div>
-            <div class="tour-card">
-                <div class="tour-img" style="background-image: url('./images/download.jpg');"></div>
-                <div class="tour-info">
-                    <div class="tour-main"><h3>Sydney, Australia</h3><p>7 Days, 6 Nights</p></div>
-                    <div class="tour-price"><span>Starts From</span><strong>$1,200</strong></div>
-                </div>
-            </div>
-            <div class="tour-card">
-                <div class="tour-img" style="background-image: url('./images/newyork.jpg');"></div>
-                <div class="tour-info">
-                    <div class="tour-main"><h3>New York, USA</h3><p>7 Days, 6 Nights</p></div>
-                    <div class="tour-price"><span>Starts From</span><strong>$1,200</strong></div>
-                </div>
-            </div>
-            <div class="tour-card">
-                <div class="tour-img" style="background-image: url('./images/barcelona.jpg');"></div>
-                <div class="tour-info">
-                    <div class="tour-main"><h3>Barcelona, Spain</h3><p>7 Days, 6 Nights</p></div>
-                    <div class="tour-price"><span>Starts From</span><strong>$1,200</strong></div>
-                </div>
-            </div>
-            <div class="tour-card">
-                <div class="tour-img" style="background-image: url('./images/bali-indonesia.jpg');"></div>
-                <div class="tour-info">
-                    <div class="tour-main"><h3>Bali, Indonesia</h3><p>7 Days, 6 Nights</p></div>
-                    <div class="tour-price"><span>Starts From</span><strong>$1,200</strong></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="wide-destinations">
-        <div class="wide-card" style="background-image: url('./images/japan-wide.jpg');">
-            <div class="wide-content"><h3>Japan</h3><p>10 Cities</p></div>
-            <div class="wide-arrow">&rarr;</div>
-        </div>
-        <div class="wide-card" style="background-image: url('./images/australia-wide.jpg');">
-            <div class="wide-content"><h3>Australia</h3><p>10 Cities</p></div>
-            <div class="wide-arrow">&rarr;</div>
-        </div>
-        <div class="center-btn"><button class="btn-purple-outline">Explore More &rarr;</button></div>
-    </section>
-
-    <section class="expert-team">
-        <div class="team-header">
-            <h2 class="purple-heading">Our Expert Travel Team</h2>
-            <p>Dedicated Travel Professionals Making Your Journey Extraordinary With Their Expertise And Passion.</p>
-        </div>
-        <div class="team-grid">
-            <div class="team-card">
-                <img src="./images/office1.jpg" alt="Gabriel Montana">
-                <div class="team-info"><h3>Gabriel Montana</h3><p>Senior Travel Consultant</p></div>
-            </div>
-            <div class="team-card">
-                <img src="./images/office2.jpg" alt="Julie Maria">
-                <div class="team-info"><h3>Julie Maria</h3><p>Senior Travel Consultant</p></div>
-            </div>
-            <div class="team-card">
-                <img src="./images/office3.jpg"Jasson Roy">
-                <div class="team-info"><h3>Jasson Roy</h3><p>Tour Guide</p></div>
-            </div>
-            <div class="team-card">
-                <img src="./images/office4.jpg"Elon Musk">
-                <div class="team-info"><h3>Elon Musk</h3><p>Wildlife Safari Guide</p></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="embark-banner">
-        <div class="embark-content">
-            <h2>Ready To Embark On Your Next Adventure With Us?</h2>
-            <p>Contact Us Today To Start Planning Your Dream Trip With TripBee!</p>
-            <button class="btn-white">Contact Now &rarr;</button>
-        </div>
-    </section>
-
-    <section class="faq-contact">
-        <div class="faq-left">
-            <h2 class="purple-heading">Got questions?</h2>
-            <div class="accordion">
-                <div class="acc-item">
-                    <span>Can I customize my travel package?</span>
-                    <i class="fas fa-minus"></i>
-                </div>
-                <div class="acc-item">
-                    <span>Do you offer group discounts?</span>
-                    <i class="fas fa-plus"></i>
-                </div>
-                <div class="acc-item">
-                    <span>Can I pay in installments?</span>
-                    <i class="fas fa-plus"></i>
-                </div>
-            </div>
-        </div>
-        <div class="contact-right">
-            <div class="contact-card">
-                <h4>Do u have More Question?</h4>
-                <form>
-                    <input type="text" placeholder="Name*" required>
-                    <input type="email" placeholder="Email*" required>
-                    <input type="tel" placeholder="Phone Number*">
-                    <textarea placeholder="How can we help you"></textarea>
-                    <button type="submit" class="btn-submit">request a call back &rarr;</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="newsletter-section">
-            <div class="newsletter-content">
-                <h2>Stay Updated With The Latest Travel News, Tips, And Exclusive Offers</h2>
-                <div class="newsletter-form-container">
-                    <p>Subscribe to our newsletter</p>
-                    <div class="subscribe-box">
-                        <input type="email" placeholder="Email address" required>
-                        <button type="submit">Subscribe</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-links">
-                <div class="footer-col brand">
-                    <h3>TripBee</h3>
-                    <p>We Curate Exceptional Travel Experiences To Ensure Every Journey Is Unforgettable.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>About us</h4>
-                    <ul>
-                        <li><a href="#">Company Overview</a></li>
-                        <li><a href="#">Our Team</a></li>
-                        <li><a href="#">Careers</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Follow us</h4>
-                    <ul>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Instagram</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
 
 </body>
 </html>
